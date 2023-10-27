@@ -18,6 +18,8 @@ There are two ways to set those variables, through either a configuration file o
 
 ### 1. config.yml
 
+The default location of the configuration file is `${XDG_CONFIG_HOME}/aoai-chat/config.yml`, and it's automatically created when you run `aoai-chat` for the first time. On Linux, the `${XDG_CONFIG_HOME}` is typically `~/.config/`, whereas its' `%LOACLAPPDATA%` on Windows.
+
 ```yml
 # ~/.config/aoai-chat/config.yml
 
@@ -27,6 +29,8 @@ OPENAI_API_VERSION: <your-openai-api-version> # e.g. '2023-05-15'
 ```
 
 ### 2. environment variables
+
+Alternatively, you can set them via environment variables as follows:
 
 ```bash
 export OPENAI_API_BASE=<your-openai-api-base> # e.g. https://foo.openai.azure.com/
