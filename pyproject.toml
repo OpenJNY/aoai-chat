@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=59.6.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aoai-cli"
+version = "0.0.1"
+license = { text = "MIT" }
+authors = [{ name = "Junya Yamaguchi", email = "openjny@gmail.com" }]
+description = "Command line-based client tool for chatting with chat-bot LLMs provided by Azure OpenAI service."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "PyYAML >= 6.0.1",
+    "black >= 23.10.0",
+    "click >= 8.1.7",
+    "isort >= 5.12.0",
+    "langchain ~= 0.0.324",
+    "mypy >= 1.6.1",
+    "openai ~= 0.28.1",
+    "pytest >= 7.4.3",
+    "python-dotenv >= 1.0.0",
+    "ruff >= 0.1.3",
+    "tiktoken ~= 0.5.0",
+]
+
+[project.scripts]
+aoai-chat = "aoai_chat.cli:main"
+
+[project.urls]
+"Homepage" = "https://github.com/OpenJNY/aoai-chat"
+
+[tool.black]
+line-length = 100
+target-version = ["py310"]
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 100
+src_paths = ["src", "tests"]
+skip_glob = ["__pycache__", "*.egg-info", "*.pyc", "venv", ".env", "dist"]
+
+[tool.mypy]
+python_version = "3.10"
+mypy_path = ["src", "tests"]
