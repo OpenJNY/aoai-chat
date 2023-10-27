@@ -3,6 +3,8 @@ import os
 import yaml
 from pathlib import Path
 from typing import Any, Optional, Union
+from aoai_chat.cli.interactive import run_interactive_mode
+from aoai_chat.cli.prompt import answer_prompt
 
 import click
 
@@ -21,8 +23,8 @@ def mkdir_if_needed(path: Union[str, Path]) -> None:
         os.makedirs(path, exist_ok=False)
 
 
-CONFIG_BASE = config_dir() / "aoai_chat"
-CONFIG_FILE = CONFIG_BASE / "config.yaml"
+CONFIG_BASE = config_dir() / "aoai-chat"
+CONFIG_FILE = CONFIG_BASE / "config.yml"
 
 
 def load_config(ctx: click.Context, param: click.Parameter, value: Optional[str]) -> None:
@@ -58,6 +60,7 @@ OPENAI_API_VERSION: '2023-05-15'
 
 @click.command(help="A cli tool to interact with LLMs powered by Azure OpenAI")
 @click.option(
+    "-p",
     "--prompt",
     "prompt",
     type=str,
@@ -87,9 +90,12 @@ OPENAI_API_VERSION: '2023-05-15'
 def main(ctx: click.Context, prompt: str, verbose: bool, config: str) -> None:
     """Main entry point of the app."""
 
-    for key, value in ctx.params.items():
-        print(key, value)
-
     ctx.ensure_object(dict)
-    for key, value in ctx.obj.items():
-        print(key, value)
+    if verbose:
+        for key, value in ctx.obj.items():
+            print(key, value)
+
+    if prompt:
+        answer_prompt(ctx, prompt)
+    else:
+        run_interactive_mode(ctx)
