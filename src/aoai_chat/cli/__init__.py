@@ -1,10 +1,12 @@
 import logging
 import os
+import sys
 import yaml
 from pathlib import Path
 from typing import Any, Optional, Union
 from aoai_chat.cli.interactive import run_interactive_mode
 from aoai_chat.cli.prompt import answer_prompt
+from aoai_chat.parser import beautify
 
 import click
 
@@ -58,11 +60,13 @@ OPENAI_API_VERSION: '2023-05-15'
     ctx.obj["config"] = config
 
 
-@click.command(help="A cli tool to interact with LLMs powered by Azure OpenAI")
+@click.command(
+    context_settings=dict(help_option_names=["-h", "--help"]),
+    help="A cli tool to interact with LLMs powered by Azure OpenAI",
+)
 @click.option(
     "-p",
     "--prompt",
-    "prompt",
     type=str,
     help="Prompt text for the one-shot interaction mode.",
 )
@@ -70,7 +74,7 @@ OPENAI_API_VERSION: '2023-05-15'
     "-v",
     "--verbose",
     is_flag=True,
-    help="Enables verbose mode for debugging purposes.",
+    help="Enable verbose mode for debugging purposes.",
 )
 @click.option(
     "--config",
@@ -86,8 +90,14 @@ OPENAI_API_VERSION: '2023-05-15'
     callback=load_config,
     help="Path to the config file.",
 )
+@click.option(
+    "--model",
+    type=str,
+    default="gpt-35-turbo",
+    help="Deployment model to use (default: gpt-35-turbo).",
+)
 @click.pass_context
-def main(ctx: click.Context, prompt: str, verbose: bool, config: str) -> None:
+def main(ctx: click.Context, prompt: str, verbose: bool, config: str, model: str) -> None:
     """Main entry point of the app."""
 
     ctx.ensure_object(dict)
@@ -95,7 +105,14 @@ def main(ctx: click.Context, prompt: str, verbose: bool, config: str) -> None:
         for key, value in ctx.obj.items():
             print(key, value)
 
-    if prompt:
-        answer_prompt(ctx, prompt)
-    else:
+    has_stdin = False
+    if not sys.stdin.isatty():
+        ctx.obj["input"] = beautify(sys.stdin.read())
+        has_stdin = True
+
+    if not has_stdin and not prompt:
         run_interactive_mode(ctx)
+    elif has_stdin and not prompt:
+        answer_prompt(ctx, "Explian the given input in a nutshell")
+    else:
+        answer_prompt(ctx, prompt)

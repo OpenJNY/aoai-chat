@@ -50,4 +50,7 @@ $ aoai-chat --prompt "Hi, there"
 
 # input an additional context via stdin
 $ cat README.md | aoai-chat --prompt "Summarize this markdown file"
+
+# specify model
+$ aoai-chat --model gpt4 --prompt "Show me what you got"
 ```
