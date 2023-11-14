@@ -63,11 +63,10 @@ OPENAI_API_VERSION: '2023-05-15'
     context_settings=dict(help_option_names=["-h", "--help"]),
     help="A cli tool to interact with LLMs powered by Azure OpenAI",
 )
-@click.option(
-    "-p",
-    "--prompt",
+@click.argument(
+    "prompt",
     type=str,
-    help="Prompt text for the one-shot interaction mode.",
+    required=False,
 )
 @click.option(
     "-v",
