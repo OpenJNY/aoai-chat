@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "aoai-cli"
-version = "0.0.1"
+version = "0.0.2"
 license = { text = "MIT" }
 authors = [{ name = "Junya Yamaguchi", email = "openjny@gmail.com" }]
 description = "Command line-based client tool for chatting with chat-bot LLMs provided by Azure OpenAI service."
