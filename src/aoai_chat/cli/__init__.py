@@ -1,9 +1,8 @@
-import logging
 import os
 import sys
 import yaml
 from pathlib import Path
-from typing import Any, Optional, Union
+from typing import Optional, Union
 from aoai_chat.cli.interactive import run_interactive_mode
 from aoai_chat.cli.prompt import answer_prompt
 from aoai_chat.parser import beautify
