@@ -46,11 +46,11 @@ export OPENAI_API_VERSION=<your-openai-api-version> # e.g. 2023-05-15
 $ aoai-chat
 
 # one-shot mode 
-$ aoai-chat --prompt "Hi, there"
+$ aoai-chat "Hi, there"
 
 # input an additional context via stdin
-$ cat README.md | aoai-chat --prompt "Summarize this markdown file"
+$ cat README.md | aoai-chat "Summarize this markdown file"
 
 # specify model
-$ aoai-chat --model gpt4 --prompt "Show me what you got"
+$ aoai-chat --model gpt4 "Show me what you got"
 ```
